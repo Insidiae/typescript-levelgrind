@@ -1,30 +1,22 @@
 "use strict";
-class Sorter {
-    constructor(collection) {
-        this.collection = collection;
-    }
-    sort() {
-        const { length } = this.collection;
-        //* Bubble Sort
-        for (let i = 0; i < length; i++) {
-            for (let j = 0; j < length - i - 1; j++) {
-                //? This only works if collection is number[]
-                if (this.collection instanceof Array) {
-                    if (this.collection[j] > this.collection[j + 1]) {
-                        [this.collection[j], this.collection[j + 1]] = [
-                            this.collection[j + 1],
-                            this.collection[j],
-                        ];
-                    }
-                }
-                //? This only works if collection is string
-                if (typeof this.collection === "string") {
-                    // You get the idea... Yeah there has to be a better way than this!
-                }
-            }
-        }
-    }
-}
-const sorter = new Sorter([10, 3, -5, 0]);
-sorter.sort();
-console.log(sorter.collection);
+Object.defineProperty(exports, "__esModule", { value: true });
+const NumbersCollection_1 = require("./NumbersCollection");
+const CharactersCollection_1 = require("./CharactersCollection");
+const LinkedList_1 = require("./LinkedList");
+const Sorter_1 = require("./Sorter");
+const numCollection = new NumbersCollection_1.NumbersCollection([10, 3, -5, 0]);
+const numSorter = new Sorter_1.Sorter(numCollection);
+numSorter.sort();
+console.log(numSorter.collection);
+const strCollection = new CharactersCollection_1.CharactersCollection("XaayB");
+const strSorter = new Sorter_1.Sorter(strCollection);
+strSorter.sort();
+console.log(strSorter.collection);
+const linkedList = new LinkedList_1.LinkedList();
+linkedList.add(500);
+linkedList.add(-10);
+linkedList.add(-3);
+linkedList.add(4);
+const linkedListSorter = new Sorter_1.Sorter(linkedList);
+linkedListSorter.sort();
+linkedList.print();
