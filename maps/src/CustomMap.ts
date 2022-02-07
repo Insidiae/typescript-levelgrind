@@ -1,5 +1,12 @@
-import { User } from "./User";
-import { Company } from "./Company";
+// import { User } from "./User";
+// import { Company } from "./Company";
+
+interface Mappable {
+  location: {
+    lat: number;
+    lng: number;
+  };
+}
 
 export class CustomMap {
   private _googleMap: google.maps.Map;
@@ -12,22 +19,44 @@ export class CustomMap {
   }
 
   //! The following code is not optimal. We'll refactor this later!
-  addUserMarker(user: User): void {
-    new google.maps.Marker({
-      map: this._googleMap,
-      position: {
-        lat: user.location.lat,
-        lng: user.location.lng,
-      },
-    });
-  }
+  // addUserMarker(user: User): void {
+  //   new google.maps.Marker({
+  //     map: this._googleMap,
+  //     position: {
+  //       lat: user.location.lat,
+  //       lng: user.location.lng,
+  //     },
+  //   });
+  // }
 
-  addCompanyMarker(company: Company): void {
+  // addCompanyMarker(company: Company): void {
+  //   new google.maps.Marker({
+  //     map: this._googleMap,
+  //     position: {
+  //       lat: company.location.lat,
+  //       lng: company.location.lng,
+  //     },
+  //   });
+  // }
+
+  //? This one is better, but not by that much.
+  // addMarker(mappable: User | Company): void {
+  //   new google.maps.Marker({
+  //     map: this._googleMap,
+  //     position: {
+  //       lat: mappable.location.lat,
+  //       lng: mappable.location.lng,
+  //     },
+  //   });
+  // }
+
+  //* There we go. Much better!
+  addMarker(mappable: Mappable): void {
     new google.maps.Marker({
       map: this._googleMap,
       position: {
-        lat: company.location.lat,
-        lng: company.location.lng,
+        lat: mappable.location.lat,
+        lng: mappable.location.lng,
       },
     });
   }
