@@ -1,7 +1,12 @@
-import { Sortable } from "./Sorter";
+import { Sorter } from "./Sorter";
 
-export class CharactersCollection implements Sortable {
-  constructor(public data: string) {}
+export class CharactersCollection extends Sorter {
+  private _characters: string[];
+
+  constructor(public data: string) {
+    super();
+    this._characters = data.split("");
+  }
 
   get length(): number {
     return this.data.length;
@@ -12,11 +17,10 @@ export class CharactersCollection implements Sortable {
   }
 
   swap(leftIdx: number, rightIdx: number): void {
-    const characters = this.data.split("");
-    [characters[leftIdx], characters[rightIdx]] = [
-      characters[rightIdx],
-      characters[leftIdx],
+    [this._characters[leftIdx], this._characters[rightIdx]] = [
+      this._characters[rightIdx],
+      this._characters[leftIdx],
     ];
-    this.data = characters.join("");
+    this.data = this._characters.join("");
   }
 }
