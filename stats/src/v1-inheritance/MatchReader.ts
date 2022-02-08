@@ -1,7 +1,7 @@
 //* Refactor 1: Using Generics
 import { CSVFileReader } from "./CSVFileReader";
-import { MatchResult } from "./MatchResult";
-import { dateStringToDate } from "./utils";
+import { MatchResult } from "../MatchResult";
+import { dateStringToDate } from "../utils";
 
 type MatchData = [Date, string, string, number, number, MatchResult, string];
 

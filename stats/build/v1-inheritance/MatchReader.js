@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MatchReader = void 0;
 //* Refactor 1: Using Generics
 const CSVFileReader_1 = require("./CSVFileReader");
-const utils_1 = require("./utils");
+const utils_1 = require("../utils");
 class MatchReader extends CSVFileReader_1.CSVFileReader {
     mapRow(row) {
         return [
