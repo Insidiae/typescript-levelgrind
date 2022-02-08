@@ -1,8 +1,8 @@
 //* Refactor 2: Using Interfaces
 import { dateStringToDate } from "../utils";
 import { MatchResult } from "../MatchResult";
-
-type MatchData = [Date, string, string, number, number, MatchResult, string];
+import { MatchData } from "../MatchData";
+import { CSVFileReader } from "./CSVFileReader";
 
 export interface DataReader {
   read(): void;
@@ -13,6 +13,10 @@ export class MatchReader {
   matches: MatchData[] = [];
 
   constructor(public reader: DataReader) {}
+
+  static fromCSV(filename: string): MatchReader {
+    return new MatchReader(new CSVFileReader(filename));
+  }
 
   load(): void {
     this.reader.read();

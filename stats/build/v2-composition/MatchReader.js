@@ -3,10 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MatchReader = void 0;
 //* Refactor 2: Using Interfaces
 const utils_1 = require("../utils");
+const CSVFileReader_1 = require("./CSVFileReader");
 class MatchReader {
     constructor(reader) {
         this.reader = reader;
         this.matches = [];
+    }
+    static fromCSV(filename) {
+        return new MatchReader(new CSVFileReader_1.CSVFileReader(filename));
     }
     load() {
         this.reader.read();
