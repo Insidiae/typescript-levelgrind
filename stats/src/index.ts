@@ -1,7 +1,8 @@
-import { CSVFileReader } from "./CSVFileReader";
+//* Refactor 1: Using Generics
+import { MatchReader } from "./MatchReader";
 import { MatchResult } from "./MatchResult";
 
-const reader = new CSVFileReader("data/football.csv");
+const reader = new MatchReader("data/football.csv");
 reader.read();
 console.log(reader.data[0]);
 

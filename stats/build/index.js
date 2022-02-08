@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const CSVFileReader_1 = require("./CSVFileReader");
+//* Refactor 1: Using Generics
+const MatchReader_1 = require("./MatchReader");
 const MatchResult_1 = require("./MatchResult");
-const reader = new CSVFileReader_1.CSVFileReader("data/football.csv");
+const reader = new MatchReader_1.MatchReader("data/football.csv");
 reader.read();
 console.log(reader.data[0]);
 let manUnitedWins = 0;
