@@ -1,4 +1,8 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+
+import { Attributes } from "./Attributes";
+import { Eventing } from "./Eventing";
+import { Sync } from "./Sync";
 
 interface UserProps {
   id?: number;
@@ -6,54 +10,54 @@ interface UserProps {
   age?: number;
 }
 
-type CallbackFunction = () => void;
+const rootUrl = "http://localhost:3000/users";
 
 export class User {
-  events: { [key: string]: CallbackFunction[] } = {};
+  private _events: Eventing = new Eventing();
+  private _sync: Sync<UserProps> = new Sync<UserProps>(rootUrl);
+  private _attributes: Attributes<UserProps>;
 
-  constructor(private _data: UserProps) {}
+  constructor(props: UserProps) {
+    this._attributes = new Attributes<UserProps>(props);
+  }
 
-  get(propName: string): string | number {
-    return this._data[propName];
+  get get() {
+    return this._attributes.get;
   }
 
   set(props: UserProps): void {
-    Object.assign(this._data, props);
+    this._attributes.set(props);
+    this._events.trigger("change");
   }
 
-  on(eventName: string, callback: CallbackFunction) {
-    const handlers = this.events[eventName] ?? [];
-    handlers.push(callback);
-    this.events[eventName] = handlers;
+  get on() {
+    return this._events.on;
   }
 
-  trigger(eventName: string): void {
-    const handlers = this.events[eventName] || [];
-
-    if (!handlers?.length) {
-      return;
-    }
-
-    for (let callback of handlers) {
-      callback();
-    }
+  get trigger() {
+    return this._events.trigger;
   }
 
   fetch(): void {
-    axios
-      .get(`http://localhost:3000/users/${this.get("id")}`)
-      .then((res: AxiosResponse): void => {
-        this.set(res.data);
-      });
+    const id = this._attributes.get("id");
+
+    if (typeof id !== "number") {
+      throw new Error("Cannot fetch user without an id.");
+    }
+
+    this._sync.fetch(id).then((res: AxiosResponse): void => {
+      this.set(res.data);
+    });
   }
 
   save(): void {
-    const id = this.get("id");
-
-    if (id) {
-      axios.put(`http://localhost:3000/users/${id}`, this._data);
-    } else {
-      axios.post("http://localhost:3000/users", this._data);
-    }
+    this._sync
+      .save(this._attributes.getAll())
+      .then((res: AxiosResponse): void => {
+        this.trigger("save");
+      })
+      .catch((): void => {
+        this.trigger("error");
+      });
   }
 }
