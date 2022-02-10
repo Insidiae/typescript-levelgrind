@@ -3,7 +3,8 @@ import axios, { AxiosResponse } from "axios";
 import { Eventing } from "./Eventing";
 
 export class Collection<ModelType, ModelProps> {
-  private _models: ModelType[] = [];
+  models: ModelType[] = [];
+
   private _events: Eventing = new Eventing();
 
   constructor(
@@ -23,10 +24,10 @@ export class Collection<ModelType, ModelProps> {
     axios.get(this.rootUrl).then((res: AxiosResponse) => {
       res.data.forEach((value: ModelProps) => {
         const user = this.deserialize(value);
-        this._models.push(user);
+        this.models.push(user);
       });
-    });
 
-    this._events.trigger("change");
+      this._events.trigger("change");
+    });
   }
 }
