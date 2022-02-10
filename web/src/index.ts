@@ -1,6 +1,6 @@
 import { User } from "./models/User";
 
-const user = new User({ id: 2 });
+const user = User.buildUser({ id: 3 });
 
 user.fetch();
 
@@ -14,5 +14,5 @@ user.on("save", () => {
 });
 
 // user.trigger("change");
-user.set({ name: "Test The 2nd", age: 420 });
+user.set({ name: "Test III", age: 420 });
 user.save();
