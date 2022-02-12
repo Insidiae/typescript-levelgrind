@@ -9,3 +9,4 @@ Course projects from [Typescript: The Complete Developer's Guide](https://www.ud
    2. [Sort an array of numbers, a string, or a linked list](sort/)
 2. [Reusable Code: Analyzing CSV Data](stats/)
 3. [Project: Build a Web Framework](web/)
+4. [Express + TypeScript Integration](server/)
