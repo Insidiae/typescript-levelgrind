@@ -34,17 +34,6 @@ router.get("/", (req: Request, res: Response): void => {
   }
 });
 
-router.post("/login", (req: RequestWithBody, res: Response): void => {
-  const { email, password } = req.body;
-
-  if (email === "classified@secret.com" && password === "topsecret") {
-    req.session = { loggedIn: true };
-    res.redirect("/");
-  } else {
-    res.send("Error: Invalid email/password.");
-  }
-});
-
 router.get("/logout", (req: Request, res: Response): void => {
   req.session = undefined;
   res.redirect("/");
