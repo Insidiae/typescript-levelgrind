@@ -32,22 +32,6 @@ router.get("/", (req, res) => {
     `);
     }
 });
-router.get("/login", (req, res) => {
-    res.send(`
-    <form method="POST">
-      <h1>Log In</h1>
-      <div>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" />
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" />
-      </div>
-      <button>Submit</button>
-    </form>
-  `);
-});
 router.post("/login", (req, res) => {
     const { email, password } = req.body;
     if (email === "classified@secret.com" && password === "topsecret") {
