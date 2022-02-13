@@ -1,19 +1,7 @@
-import * as React from "react";
-
-import { fetchTodos } from "./features/todos/todosSlice";
+import Todos from "./features/todos/Todos";
 import "./App.css";
-import { useAppDispatch, useAppSelector } from "./app/hooks";
 
 function App(): JSX.Element {
-  const todos = useAppSelector((state) => state.todos.todos);
-  const status = useAppSelector((state) => state.todos.status);
-  const error = useAppSelector((state) => state.todos.error);
-  const dispatch = useAppDispatch();
-
-  function onFetchTodos() {
-    dispatch(fetchTodos());
-  }
-
   return (
     <div className="App">
       <header>
@@ -23,14 +11,7 @@ function App(): JSX.Element {
         <h2>A simple todo list app built with React + Redux Toolkit</h2>
       </header>
 
-      <button onClick={() => onFetchTodos()}>Fetch Todos</button>
-      <ul className="list">
-        {todos?.map((todo) => (
-          <li className="task" key={todo.id}>
-            {todo.title} <span>X</span>
-          </li>
-        ))}
-      </ul>
+      <Todos />
     </div>
   );
 }
