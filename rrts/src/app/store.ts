@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { apiSlice } from "../features/todos/todosSlice";
+import todosReducer from "../features/todos/todosSlice";
 
-export default configureStore({
+const store = configureStore({
   reducer: {
-    [apiSlice.reducerPath]: apiSlice.reducer,
-  },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(apiSlice.middleware);
+    todos: todosReducer,
   },
 });
+
+export default store;
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>;
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch;

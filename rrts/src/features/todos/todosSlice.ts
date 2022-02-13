@@ -1,4 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  createAsyncThunk,
+  createSlice,
+  SerializedError,
+} from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface Todo {
   id: number;
@@ -6,29 +11,45 @@ interface Todo {
   completed: boolean;
 }
 
-interface TodosState {
+export interface TodosState {
   todos: Todo[];
   status: "idle" | "pending" | "resolved" | "rejected";
-  error?: Error | null;
+  error?: SerializedError | null;
 }
 
-const baseUrl = "https://jsonplaceholder.typicode.com";
+const initialState: TodosState = {
+  todos: [],
+  status: "idle",
+  error: null,
+};
 
-export const apiSlice = createApi({
-  reducerPath: "api",
-  baseQuery: fetchBaseQuery({
-    baseUrl,
-    prepareHeaders(headers) {
-      return headers;
-    },
-  }),
-  endpoints(builder) {
-    return {
-      fetchTodos: builder.query<Todo[], number | void>({
-        query: () => "/todos",
-      }),
-    };
+const url = "https://jsonplaceholder.typicode.com/todos";
+
+export const fetchTodos = createAsyncThunk("todos/fetchTodos", async () => {
+  const res = await axios.get<Todo[]>(url);
+  return res.data;
+});
+
+const todosSlice = createSlice({
+  name: "todos",
+  initialState,
+  reducers: {
+    //TODO
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchTodos.pending, (state, action) => {
+        state.status = "pending";
+      })
+      .addCase(fetchTodos.fulfilled, (state, action) => {
+        state.status = "resolved";
+        state.todos = state.todos.concat(action.payload);
+      })
+      .addCase(fetchTodos.rejected, (state, action) => {
+        state.status = "rejected";
+        state.error = action.error;
+      });
   },
 });
 
-export const { useLazyFetchTodosQuery } = apiSlice;
+export default todosSlice.reducer;
