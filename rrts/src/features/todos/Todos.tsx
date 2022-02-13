@@ -1,11 +1,28 @@
+import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { fetchTodos, updateTodo, deleteTodo } from "./todosSlice";
+import { Todo } from "./types";
 
 export default function Todos(): JSX.Element {
   const todos = useAppSelector((state) => state.todos.todos);
   const status = useAppSelector((state) => state.todos.status);
   const error = useAppSelector((state) => state.todos.error);
   const dispatch = useAppDispatch();
+
+  function onUpdateTodo(todo: Todo) {
+    const editedTodo: Todo = {
+      ...todo,
+      // title: "DONE",
+      completed: !todo.completed,
+    };
+
+    dispatch(updateTodo(editedTodo));
+  }
+
+  function onDeleteTodo(event: React.MouseEvent, id: number) {
+    event.stopPropagation();
+    dispatch(deleteTodo(id));
+  }
 
   switch (status) {
     case "idle":
@@ -21,10 +38,10 @@ export default function Todos(): JSX.Element {
             <li
               className={`task ${todo.completed ? "done" : ""}`}
               key={todo.id}
-              onClick={() => dispatch(updateTodo(todo.id))}
+              onClick={() => onUpdateTodo(todo)}
             >
               {todo.title}{" "}
-              <span onClick={() => dispatch(deleteTodo(todo.id))}>X</span>
+              <span onClick={(event) => onDeleteTodo(event, todo.id)}>X</span>
             </li>
           ))}
         </ul>

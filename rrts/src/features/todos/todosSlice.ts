@@ -1,15 +1,12 @@
 import {
+  Action,
   createAsyncThunk,
   createSlice,
   SerializedError,
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import type { Todo, UpdateTodoAction, DeleteTodoAction } from "./types";
 
 export interface TodosState {
   todos: Todo[];
@@ -34,12 +31,13 @@ const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    updateTodo: (state, action) => {
-      const idx = state.todos.findIndex((todo) => todo.id === action.payload);
-      const todo = state.todos[idx];
-      todo.completed = !todo.completed;
+    updateTodo: (state, action: UpdateTodoAction) => {
+      const idx = state.todos.findIndex(
+        (todo) => todo.id === action.payload.id
+      );
+      state.todos[idx] = action.payload;
     },
-    deleteTodo: (state, action) => {
+    deleteTodo: (state, action: DeleteTodoAction) => {
       state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     },
   },
