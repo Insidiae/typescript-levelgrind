@@ -10,3 +10,4 @@ Course projects from [Typescript: The Complete Developer's Guide](https://www.ud
 2. [Reusable Code: Analyzing CSV Data](stats/)
 3. [Project: Build a Web Framework](web/)
 4. [Express + TypeScript Integration](server/)
+5. [React and Redux with TypeScript (feat. Vite and Redux Toolkit)](rrts/)
